@@ -12,6 +12,7 @@ var nemusProyect = function( p ) {
   var maxDiameter = 500;
   var minWeight = 10;
   var maxWeight = 500;
+  var lines;
   // var rangeT = document.getElementById('testR');
 
   document.getElementById('buttonSearch').onclick = function() {searchBox = document.getElementById('searhIn').value; alert(searchBox);};
@@ -20,19 +21,20 @@ var nemusProyect = function( p ) {
 
   p.setup = function() {
     p.createCanvas(500, 500);
+    dataProc("/data/nomisma1.csv")
   };
 
   function dataProc(filename){
-    var lines = p.loadStrings(filename); //////////////////////////////
-    console.log(lines.length);
-    for (var i = 0; i < lines.length; i++) {
-      console.log(lines[i]);
+    lines = p.loadTable(filename,'csv','header'); //////////////////////////////
+    console.log(lines.getRowCount());
+    console.log(lines);
+    for (var i = 0; i < lines.getRowCount(); i++) {
+      console.log(lines.getString(i));
     }
   }
 
   p.draw = function() {
     // year = yearIn.value;
-    dataProc("/data/nomisma1.csv")
     document.getElementById('diameterMinIn').min = minDiameter;
     document.getElementById('diameterMinIn').max = document.getElementById('diameterMaxIn').value;
     document.getElementById('diameterMaxIn').min = document.getElementById('diameterMinIn').value;
