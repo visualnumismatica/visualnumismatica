@@ -19,19 +19,27 @@ var nemusProyect = function( p ) {
   // document.getElementById('yearIn').max = maxYear;
   // document.getElementById('yearIn').min = minYear;
 
-  p.setup = function() {
-    p.createCanvas(500, 500);
-    dataProc("/data/nomisma1.csv")
-  };
-
-  function dataProc(filename){
-    lines = p.loadTable(filename,'csv','header'); //////////////////////////////
-    console.log(lines.getRowCount());
-    console.log(lines);
-    for (var i = 0; i < lines.getRowCount(); i++) {
-      console.log(lines.getString(i));
-    }
+  p.preload = function(){
+    lines = p.loadTable("/data/nomisma1.csv",'csv','header'); //////////////////////////////
   }
+
+  p.setup = function() {
+    p.createCanvas(1000, 500);
+    console.log(lines.rows[0].obj);
+    let d = lines.rows[0].obj.Fecha;
+    let a = d.split('-');
+    let f;
+    if (isNaN(a[0])) {
+      f = +a[1]
+    } else{
+      f = +a[0]
+    }
+    console.log(f);
+
+    // for (var i = 0; i < lines.getRowCount(); i++) {
+    //   console.log(lines.getRow(i));
+    // }
+  };
 
   p.draw = function() {
     // year = yearIn.value;
@@ -49,10 +57,40 @@ var nemusProyect = function( p ) {
     document.getElementById('spanWeightMax').innerHTML = document.getElementById('weightMaxIn').value;
     // console.log(diameterMin.value, diameterMax.value, weightMin.value, weightMax.value);
     p.background(200);
-    p.translate(0,p.height);
-    p.translate(weightMin.value,-diameterMin.value);
-    p.text("Hola Mundo",0,0);
+    p.translate(p.width/2.0,p.height);
+    p.line(0,0,0,-p.height);
+    // p.translate(weightMin.value,-diameterMin.value);
+    p.text("Año",10,0);
+    p.text("Diametro",-p.width/2.0,-200);
+    p.text("0",1,1);
+    p.line(300,0,300,-p.height);
+    p.text("300",300,1);
+    p.line(-300,0,-300,-p.height);
+    p.text("-300",-300,1);
+    p.text("20mm",1,-20);
+    p.line(-500,-20,500,-20);
+    p.text("40mm",1,-40);
+    p.line(-500,-40,500,-40);
+    p.text("60mm",1,-60);
+    p.line(-500,-60,500,-60);
+    p.text("80mm",1,-80);
+    p.line(-500,-80,500,-80);
     // p.translate(-10,-diameter.value)
+    p.translate(60,-30);
+    p.push();
+    p.strokeWeight(3);
+    for (var i = 0; i < lines.getRowCount(); i++) {
+      let d = lines.rows[i].obj.Fecha;
+      let a = d.split('-');
+      let f;
+      if (isNaN(a[0])) {
+        f = +a[1]
+      } else{
+        f = -1*(+a[0])
+      }
+      p.point(f,-lines.rows[i].obj.Diametro);
+    }
+    p.pop();
   };
 };
 
