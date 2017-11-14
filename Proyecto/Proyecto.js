@@ -11,11 +11,22 @@ var nemusProyect = function( p ) {
   var minDiameter = 10;
   var maxDiameter = 500;
   var minWeight = 10;
-  var maxWeight = 500;
+  var maxWeight = 300;
+  var minDate = -500;
+  var maxDate = 500;
   var lines;
+  var data;
+  var date;
+  var newDate;
+  var axisValue;
   // var rangeT = document.getElementById('testR');
-
+  var radios = document.getElementsByName('yAxis');
+  var axisStringMeasure;
+  var xScale = 10.0;
+  var yearOff = 0;
   document.getElementById('buttonSearch').onclick = function() {searchBox = document.getElementById('searhIn').value; alert(searchBox);};
+  window.onload = function(){
+  }
   // document.getElementById('yearIn').max = maxYear;
   // document.getElementById('yearIn').min = minYear;
 
@@ -25,16 +36,16 @@ var nemusProyect = function( p ) {
 
   p.setup = function() {
     p.createCanvas(1000, 500);
-    console.log(lines.rows[0].obj);
-    let d = lines.rows[0].obj.Fecha;
-    let a = d.split('-');
-    let f;
-    if (isNaN(a[0])) {
-      f = +a[1]
+    console.log(lines.rows[7].obj);
+    data = lines.rows[7].obj.Fecha;
+    date = data.split('-');
+    if (isNaN(date[0])) {
+      newDate = +date[1]
     } else{
-      f = +a[0]
+      newDate = -1* +date[0]
     }
-    console.log(f);
+    console.log(newDate);
+
 
     // for (var i = 0; i < lines.getRowCount(); i++) {
     //   console.log(lines.getRow(i));
@@ -55,40 +66,75 @@ var nemusProyect = function( p ) {
     document.getElementById('weightMaxIn').max = maxWeight;
     document.getElementById('spanWeightMin').innerHTML = document.getElementById('weightMinIn').value;
     document.getElementById('spanWeightMax').innerHTML = document.getElementById('weightMaxIn').value;
+    document.getElementById('dateMinIn').min = minDate;
+    document.getElementById('dateMinIn').max = document.getElementById('dateMaxIn').value;
+    document.getElementById('dateMaxIn').min = document.getElementById('dateMinIn').value;
+    document.getElementById('dateMaxIn').max = maxDate;
+    document.getElementById('spanDateMin').innerHTML = document.getElementById('dateMinIn').value;
+    document.getElementById('spanDateMax').innerHTML = document.getElementById('dateMaxIn').value;
+    document.getElementById('dateRange').max = maxDate;
+    document.getElementById('dateRange').min = minDate;
+    yearOff = document.getElementById('dateRange').value;
+    // document.getElementById('spanDateRange').innerHTML = yearOff;
+
     // console.log(diameterMin.value, diameterMax.value, weightMin.value, weightMax.value);
+    for (var i = 0, length = radios.length; i < length; i++){
+      if (radios[i].checked){
+        // do whatever you want with the checked radio
+        axisValue = radios[i].value;
+        // only one radio can be logically checked, don't check the rest
+        break;
+      }
+    }
     p.background(200);
     p.translate(p.width/2.0,p.height);
+    p.translate(-yearOff*10.0,0);
     p.line(0,0,0,-p.height);
     // p.translate(weightMin.value,-diameterMin.value);
     p.text("Año",10,0);
-    p.text("Diametro",-p.width/2.0,-200);
+    if (axisValue == 1) {
+      p.text("Diametro",-p.width/2.0,-200);
+      axisStringMeasure = "mm";
+    } else {
+      p.text("Peso",-p.width/2.0,-200);
+      axisStringMeasure = "gr";
+    }
     p.text("0",1,1);
-    p.line(300,0,300,-p.height);
-    p.text("300",300,1);
-    p.line(-300,0,-300,-p.height);
-    p.text("-300",-300,1);
-    p.text("20mm",1,-20);
+    p.line(300*xScale,0,300*xScale,-p.height);
+    p.text("300",300*xScale,1);
+    p.line(-300*xScale,0,-300*xScale,-p.height);
+    p.text("-300",-300*xScale,1);
+    p.text("20"+axisStringMeasure,1,-20);
     p.line(-500,-20,500,-20);
-    p.text("40mm",1,-40);
+    p.text("40"+axisStringMeasure,1,-40);
     p.line(-500,-40,500,-40);
-    p.text("60mm",1,-60);
+    p.text("60"+axisStringMeasure,1,-60);
     p.line(-500,-60,500,-60);
-    p.text("80mm",1,-80);
+    p.text("80"+axisStringMeasure,1,-80);
     p.line(-500,-80,500,-80);
+    p.text("200"+axisStringMeasure,1,-200);
+    p.line(-500,-200,500,-200);
     // p.translate(-10,-diameter.value)
     p.translate(60,-30);
     p.push();
     p.strokeWeight(3);
     for (var i = 0; i < lines.getRowCount(); i++) {
-      let d = lines.rows[i].obj.Fecha;
-      let a = d.split('-');
-      let f;
-      if (isNaN(a[0])) {
-        f = +a[1]
+      data = lines.rows[i].obj.Fecha;
+      date = data.split('-');
+      if (isNaN(date[0])) {
+        newDate = +date[1]
       } else{
-        f = -1*(+a[0])
+        newDate = -1* +date[0]
       }
-      p.point(f,-lines.rows[i].obj.Diametro);
+      p.noFill();
+      p.strokeWeight(1);
+      if (axisValue == 1) {
+        //p.point(newDate,-lines.rows[i].obj.Diametro);
+        p.ellipse(newDate*xScale,-lines.rows[i].obj.Diametro,lines.rows[i].obj.Diametro/1.0,lines.rows[i].obj.Diametro/1.0);
+      }else {
+        //p.point(newDate,-lines.rows[i].obj.Peso);
+        p.ellipse(newDate*xScale,-lines.rows[i].obj.Peso,lines.rows[i].obj.Diametro/1.0,lines.rows[i].obj.Diametro/1.0);
+      }
     }
     p.pop();
   };
