@@ -35,9 +35,9 @@ var nemusProyect = function( p ) {
   }
 
   p.setup = function() {
-    p.createCanvas(1000, 500);
-    console.log(lines.rows[7].obj);
-    data = lines.rows[7].obj.Fecha;
+    p.createCanvas(p.windowWidth-550, 400);
+    console.log(lines.rows[73].obj);
+    data = lines.rows[73].obj.Fecha;
     date = data.split('-');
     if (isNaN(date[0])) {
       newDate = +date[1]
@@ -128,16 +128,45 @@ var nemusProyect = function( p ) {
       }
       p.noFill();
       p.strokeWeight(1);
+      var centerX = newDate*xScale;
+      var centerY;
+      var diameter = lines.rows[i].obj.Diametro/1.0;
       if (axisValue == 1) {
+        centerY = -lines.rows[i].obj.Diametro;
         //p.point(newDate,-lines.rows[i].obj.Diametro);
-        p.ellipse(newDate*xScale,-lines.rows[i].obj.Diametro,lines.rows[i].obj.Diametro/1.0,lines.rows[i].obj.Diametro/1.0);
+        p.ellipse(centerX,centerY,diameter,diameter);
       }else {
         //p.point(newDate,-lines.rows[i].obj.Peso);
-        p.ellipse(newDate*xScale,-lines.rows[i].obj.Peso,lines.rows[i].obj.Diametro/1.0,lines.rows[i].obj.Diametro/1.0);
+        centerY = -lines.rows[i].obj.Peso;
+        p.ellipse(centerY,centerY,diameter,diameter);
       }
+      if (i == 73) {
+        console.log(centerX);
+        p.point(centerX,centerY)
+        p.point(centerX+10,centerY)
+        p.point(centerX+10,centerY+10)
+      }
+      p.push();
+      p.translate(-p.width/2.0,-p.height);
+      var truePosMouseX = centerX- p.width/2.0;
+      var truePosMouseY = centerY - p.height/2.0;
+      if (p.sqrt(p.sq(centerX-p.mouseX)+p.sq(-centerY-p.mouseY)) < diameter/2.0) {
+        p.ellipse(truePosMouseX,truePosMouseY,20,20)
+        console.log(centerX,p.mouseX,centerY,p.mouseY);
+        console.log(i);
+      }
+      p.pop();
     }
     p.pop();
   };
+
+  p.mousePressed = function(){
+    console.log((p.mouseX-p.width/2.0)+yearOff*10.0,-(p.mouseY-p.height),yearOff,yearOff*10.0);
+  };
+
+  p.windowResized = function(){
+    p.resizeCanvas(p.windowWidth-550, 400);
+  }
 };
 
 var varProyect = new p5(nemusProyect, 'nemusProyect');
