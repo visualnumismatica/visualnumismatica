@@ -1,19 +1,3 @@
-function Coin (obj){
-  this.nombre = obj.Nombre;
-  this.axis = +obj.Axis;
-  this.diametro = +obj.Diametro;
-  date = obj.Fecha.split('-');
-  if (isNaN(date[0])) {
-    newDate = +date[1]
-  } else{
-    newDate = -1* +date[0]
-  }
-  this.fecha = newDate;
-  this.peso = +obj.Peso;
-  this.anverso = obj.Anverso;
-  this.reverso = obj.Reverso;
-}
-
 var nemusProyect = function( p ) {
   var Color;
   var year = document.getElementById('yearIn');
@@ -38,9 +22,8 @@ var nemusProyect = function( p ) {
   // var rangeT = document.getElementById('testR');
   var radios = document.getElementsByName('yAxis');
   var axisStringMeasure;
-  var xScale = 10.0;
+  var xScale = 1.0;
   var yearOff = 0;
-  var coins = [];
   document.getElementById('buttonSearch').onclick = function() {searchBox = document.getElementById('searhIn').value; alert(searchBox);};
   window.onload = function(){
   }
@@ -53,15 +36,24 @@ var nemusProyect = function( p ) {
 
   p.setup = function() {
     p.createCanvas(700, 400);
-    var c;
-    for (var i = 0; i < lines.getRowCount(); i++) {
-      c = new Coin(lines.rows[i].obj);
-      coins.push(c);
+    console.log(lines.rows[73].obj);
+    data = lines.rows[73].obj.Fecha;
+    date = data.split('-');
+    if (isNaN(date[0])) {
+      newDate = +date[1]
+    } else{
+      newDate = -1* +date[0]
     }
-    console.log(coins[73]);
+    console.log(newDate);
+
+
+    // for (var i = 0; i < lines.getRowCount(); i++) {
+    //   console.log(lines.getRow(i));
+    // }
   };
 
   p.draw = function() {
+    // year = yearIn.value;
     document.getElementById('diameterMinIn').min = minDiameter;
     document.getElementById('diameterMinIn').max = document.getElementById('diameterMaxIn').value;
     document.getElementById('diameterMaxIn').min = document.getElementById('diameterMinIn').value;
@@ -86,85 +78,33 @@ var nemusProyect = function( p ) {
     // document.getElementById('spanDateRange').innerHTML = yearOff;
 
     // console.log(diameterMin.value, diameterMax.value, weightMin.value, weightMax.value);
-    for (var i = 0, length = radios.length; i < length; i++){
-      if (radios[i].checked){
-        // do whatever you want with the checked radio
-        axisValue = radios[i].value;
-        // only one radio can be logically checked, don't check the rest
-        break;
-      }
-    }
+    var d = 100;
+    var cX = 0;
+    var cY = 0;
+    var xScale = 3.0;
     p.background(255);
     p.translate(p.width/2.0,p.height);
-    p.text("Año",10,-7);
-    if (axisValue == 1) {
-      p.text("Diametro",-p.width/2.0,-300);
-      axisStringMeasure = "mm";
-    } else {
-      p.text("Peso",-p.width/2.0,-300);
-      axisStringMeasure = "gr";
+    p.translate(yearOff*10.0,0);
+    p.push();
+    if ((p.pow((p.mouseX-(p.width/2.0)-yearOff*10.0 - cX),2)+p.pow((p.mouseY-p.height - cY),2)) <= p.pow(d/2.0,2)) {
+      p.stroke(p.random(255),p.random(255),p.random(255));
     }
+    p.ellipse(cX*xScale,cY,d,d);
+    p.pop();
+    p.push();
+    if ((p.pow((p.mouseX-(p.width/2.0)-yearOff*10.0 - 100*xScale),2)+p.pow((p.mouseY-p.height + 100),2)) <= p.pow(d/2.0,2)) {
+      p.stroke(p.random(255),p.random(255),p.random(255));
+    }
+    p.ellipse(100*xScale,-100,d,d);
+    p.pop();
     p.translate(-yearOff*10.0,0);
-    p.translate(0,-30);
-
-    p.line(0,30,0,-p.height);
-    p.line(minDate*xScale,0,maxDate*xScale,0);
-    p.push()
-    p.stroke(0,30)
-    for (var i = -500; i < 501; i+=50) { // Lineas verticales
-      if (i != 0) {
-        p.line(i*xScale,30,i*xScale,-p.height);
-        p.fill(0,50)
-        p.text(i.toString(),i*xScale,13);
-      }
-    }
-    p.text("0",1,13);
-    p.fill(0)
-    for (var i = 20; i < 261; i+=20) { // Lineas horizontales
-      p.line(minDate*xScale,-i,maxDate*xScale,-i);
-      p.fill(0,50)
-      p.text(i.toString()+axisStringMeasure,1,-i);
-    }
-    p.pop()
-    p.push()
-    p.noFill();
-    p.strokeWeight(1);
-    for (var i = 0; i < coins.length; i++) {
-      var centerX = coins[i].fecha*xScale;
-      var centerY;
-      var diameter = coins[i].diametro;
-      if (axisValue == 1) {
-        centerY = -diameter;
-        p.push();
-        if ((p.pow((p.mouseX-(p.width/2.0)+yearOff*10.0 - centerX),2)+p.pow((p.mouseY-p.height+30 - centerY),2)) <= p.pow(diameter/2.0,2)) {
-          p.stroke(p.random(255),p.random(255),p.random(255));
-          console.log(i);
-        }
-        p.ellipse(centerX,centerY,diameter,diameter);
-        p.pop();
-      }else {
-        centerY = -coins[i].peso;
-        p.push();
-        if ((p.pow((p.mouseX-(p.width/2.0)+yearOff*10.0 - centerX),2)+p.pow((p.mouseY-p.height+30 - centerY),2)) <= p.pow(diameter/2.0,2)) {
-          p.stroke(p.random(255),p.random(255),p.random(255));
-          console.log(i);
-        }
-        p.ellipse(centerX,centerY,diameter,diameter);
-        p.pop();
-      }
-      // if (i == 862) { // Moneda grande
-      // }
-    }
-
-    p.pop()
-
-    p.translate(-60,30);
-    // p.translate(yearOff*10.0,0);
     p.translate(-p.width/2.0,-p.height);
+    p.point(p.mouseX,p.mouseY);
+    // console.log(p.mouseX-(p.width/2.0)-yearOff*10.0,p.mouseY-p.height);
   };
 
   p.mousePressed = function(){
-    // console.log(p.mouseX-(p.width/2.0)-yearOff*10.0,p.mouseY-p.height,yearOff,yearOff*10.0);
+    console.log(p.mouseX-(p.width/2.0)-yearOff*10.0,p.mouseY-p.height,yearOff,yearOff*10.0);
   };
 
   // p.windowResized = function(){
@@ -172,4 +112,4 @@ var nemusProyect = function( p ) {
   // }
 };
 
-var varProyect = new p5(nemusProyect, 'nemusProyect');
+var varProyect = new p5(nemusProyect, 'testProyect');
