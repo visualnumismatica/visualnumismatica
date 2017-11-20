@@ -24,6 +24,12 @@ var nemusProyect = function( p ) {
   var searchBox = document.getElementById('searchIn');
   // var minYear = 1800;
   // var maxYear = 1900;
+  var minYear = Number.MAX_VALUE;
+  var maxYear = Number.MIN_VALUE;
+  var minDiam = Number.MAX_VALUE;
+  var maxDiam = Number.MIN_VALUE;
+  var minWeig = Number.MAX_VALUE;
+  var maxWeig = Number.MIN_VALUE;
   var minDiameter = 10;
   var maxDiameter = 500;
   var minWeight = 10;
@@ -38,9 +44,11 @@ var nemusProyect = function( p ) {
   // var rangeT = document.getElementById('testR');
   var radios = document.getElementsByName('yAxis');
   var axisStringMeasure;
-  var xScale = 10.0;
-  var yearOff = 0;
+  var xScale = 1.0;
+  var xOff = 0;
+  var yOff = 0;
   var coins = [];
+  var selectedCoin = -1;
   document.getElementById('buttonSearch').onclick = function() {searchBox = document.getElementById('searhIn').value; alert(searchBox);};
   window.onload = function(){
   }
@@ -56,9 +64,24 @@ var nemusProyect = function( p ) {
     var c;
     for (var i = 0; i < lines.getRowCount(); i++) {
       c = new Coin(lines.rows[i].obj);
-      coins.push(c);
+      if (c.fecha === c.fecha) {
+        minYear = p.min(minYear,c.fecha);
+        maxYear = p.max(maxYear,c.fecha);
+        minDiam = p.min(minDiam,c.diametro);
+        maxDiam = p.max(maxDiam,c.diametro);
+        minWeig = p.min(minWeig,c.peso);
+        maxWeig = p.max(maxWeig,c.peso);
+        coins.push(c);
+      }
     }
+    minDiameter = minDiam;
+    maxDiameter = maxDiam;
+    minWeight = minWeig;
+    maxWeight = maxWeig;
+    minDate = minYear;
+    maxDate = maxYear;
     console.log(coins[73]);
+    console.log(minYear,maxYear,minDiam,maxDiam,minWeig,maxWeig);
   };
 
   p.draw = function() {
@@ -80,10 +103,16 @@ var nemusProyect = function( p ) {
     document.getElementById('dateMaxIn').max = maxDate;
     document.getElementById('spanDateMin').innerHTML = document.getElementById('dateMinIn').value;
     document.getElementById('spanDateMax').innerHTML = document.getElementById('dateMaxIn').value;
-    document.getElementById('dateRange').max = maxDate;
-    document.getElementById('dateRange').min = minDate;
-    yearOff = document.getElementById('dateRange').value;
-    // document.getElementById('spanDateRange').innerHTML = yearOff;
+    document.getElementById('xZoom').max = 30;
+    document.getElementById('xZoom').min = 1;
+    xScale = document.getElementById('xZoom').value;
+    document.getElementById('yZoom').max = 30;
+    document.getElementById('yZoom').min = 1;
+    yScale = document.getElementById('yZoom').value;
+    document.getElementById('dateRange').max = maxDate/10*xScale;
+    document.getElementById('dateRange').min = minDate/10*xScale;
+    xOff = document.getElementById('dateRange').value;
+    // document.getElementById('spanDateRange').innerHTML = xOff;
 
     // console.log(diameterMin.value, diameterMax.value, weightMin.value, weightMax.value);
     for (var i = 0, length = radios.length; i < length; i++){
@@ -98,32 +127,44 @@ var nemusProyect = function( p ) {
     p.translate(p.width/2.0,p.height);
     p.text("Año",10,-7);
     if (axisValue == 1) {
+      document.getElementById('spanIndicator').innerHTML = "Diametro";
+      document.getElementById('yRange').max = maxDiameter/10*yScale;
+      document.getElementById('yRange').min = minDiameter/10*yScale;
       p.text("Diametro",-p.width/2.0,-300);
       axisStringMeasure = "mm";
     } else {
+      document.getElementById('spanIndicator').innerHTML = "Peso";
+      document.getElementById('yRange').max = maxWeight/10*yScale;
+      document.getElementById('yRange').min = minWeight/10*yScale;
       p.text("Peso",-p.width/2.0,-300);
       axisStringMeasure = "gr";
     }
-    p.translate(-yearOff*10.0,0);
+    yOff = document.getElementById('yRange').value;
+
+    p.translate(-xOff*10.0,yOff*10.0);
     p.translate(0,-30);
 
     p.line(0,30,0,-p.height);
-    p.line(minDate*xScale,0,maxDate*xScale,0);
-    p.push()
-    p.stroke(0,30)
-    for (var i = -500; i < 501; i+=50) { // Lineas verticales
+    p.line(minDate*xScale,0*yScale,maxDate*xScale,0*yScale);
+    p.push();
+    p.stroke(0,30);
+    var xStep = 50;
+    for (var i = Math.floor(minDate/xStep)*xStep; i < (Math.ceil(maxDate/xStep)*xStep)+1; i+=(Math.trunc(xStep/xScale) > 0 ? Math.trunc(xStep/xScale) : 1)) { // Lineas verticales
       if (i != 0) {
-        p.line(i*xScale,30,i*xScale,-p.height);
+        p.line(i*xScale,30*yScale,i*xScale,-p.height*yScale);
         p.fill(0,50)
         p.text(i.toString(),i*xScale,13);
       }
     }
     p.text("0",1,13);
-    p.fill(0)
-    for (var i = 20; i < 261; i+=20) { // Lineas horizontales
-      p.line(minDate*xScale,-i,maxDate*xScale,-i);
-      p.fill(0,50)
-      p.text(i.toString()+axisStringMeasure,1,-i);
+    p.fill(0);
+    var yStep = 20;
+    for (var i = 0; i < (Math.ceil(maxDiameter/yStep)*yStep)+1; i+=(Math.trunc(yStep/yScale) > 0 ? Math.trunc(yStep/yScale) : 1)) { // Lineas horizontales
+      if (i != 0) {
+        p.line(minDate*xScale,-i*yScale,maxDate*xScale,-i*yScale);
+        p.fill(0,50)
+        p.text(i.toString()+axisStringMeasure,1,-i*yScale);
+      }
     }
     p.pop()
     p.push()
@@ -134,20 +175,34 @@ var nemusProyect = function( p ) {
       var centerY;
       var diameter = coins[i].diametro;
       if (axisValue == 1) {
-        centerY = -diameter;
+        centerY = -diameter*yScale;
         p.push();
-        if ((p.pow((p.mouseX-(p.width/2.0)+yearOff*10.0 - centerX),2)+p.pow((p.mouseY-p.height+30 - centerY),2)) <= p.pow(diameter/2.0,2)) {
+        if (selectedCoin == i) {
+          p.strokeWeight(3);
+        }
+        if ((p.pow((p.mouseX-(p.width/2.0)+xOff*10.0 - centerX),2)+p.pow((p.mouseY-p.height+30-yOff*10.0 - centerY),2)) <= p.pow(diameter/2.0,2)) {
           p.stroke(p.random(255),p.random(255),p.random(255));
-          console.log(i);
+          if (p.mouseIsPressed && selectedCoin != i) {
+            selectedCoin = i;
+          } else if (p.mouseIsPressed && selectedCoin == i) {
+            selectedCoin = -1;
+          }
         }
         p.ellipse(centerX,centerY,diameter,diameter);
         p.pop();
       }else {
-        centerY = -coins[i].peso;
+        centerY = -coins[i].peso*yScale;
         p.push();
-        if ((p.pow((p.mouseX-(p.width/2.0)+yearOff*10.0 - centerX),2)+p.pow((p.mouseY-p.height+30 - centerY),2)) <= p.pow(diameter/2.0,2)) {
+        if (selectedCoin == i) {
+          p.strokeWeight(3);
+        }
+        if ((p.pow((p.mouseX-(p.width/2.0)+xOff*10.0 - centerX),2)+p.pow((p.mouseY-p.height+30-yOff*10.0 - centerY),2)) <= p.pow(diameter/2.0,2)) {
           p.stroke(p.random(255),p.random(255),p.random(255));
-          console.log(i);
+          if (p.mouseIsPressed && selectedCoin != i) {
+            selectedCoin = i;
+          } else if (p.mouseIsPressed && selectedCoin == i) {
+            selectedCoin = -1;
+          }
         }
         p.ellipse(centerX,centerY,diameter,diameter);
         p.pop();
@@ -159,12 +214,14 @@ var nemusProyect = function( p ) {
     p.pop()
 
     p.translate(-60,30);
-    // p.translate(yearOff*10.0,0);
+    // p.translate(xOff*10.0,0);
     p.translate(-p.width/2.0,-p.height);
   };
+  p.mouseClicked = function(){
 
+  };
   p.mousePressed = function(){
-    // console.log(p.mouseX-(p.width/2.0)-yearOff*10.0,p.mouseY-p.height,yearOff,yearOff*10.0);
+    // console.log(p.mouseX-(p.width/2.0)-xOff*10.0,p.mouseY-p.height,xOff,xOff*10.0);
   };
 
   // p.windowResized = function(){

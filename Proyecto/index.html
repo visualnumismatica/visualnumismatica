@@ -13,9 +13,10 @@ Released   : 20131223
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title></title>
+<title>Numismática</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
+<link rel="shortcut icon" type="image/png" href="images/icon.png"/>
 <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900|Quicksand:400,700|Questrial" rel="stylesheet" />
 <!-- Bootstrap core CSS -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -79,54 +80,36 @@ Released   : 20131223
 						    <input type="range" value="0" id="yearIn" /><br /> -->
 						    <div>
 									<div>
-							      <span>Rango</span><br />
-							      Fecha <input type="range" value="0" id="dateRange"/>
-							      <!-- <span id="spanDateRange"></span><br /> -->
+										<span><b>Año</b></span><br />
+							      <span>Deplazar</span><br />
+										<input type="range" value="0" id="dateRange"/><br />
+							      <span>Zoom</span><br />
+							      <input type="range" value="0" id="xZoom" step="0.0001"/><br />
+										<form>
+								      <input type="radio" name="yAxis" value="1" checked> Diametro <br />
+								      <input type="radio" name="yAxis" value="0"> Peso<br>
+								    </form>
+										<b><span id="spanIndicator"></span></b><br />
+							      <span>Deplazar</span><br />
+										<input type="range" value="0" id="yRange"/><br />
+										<span>Zoom</span><br />
+							      <input type="range" value="0" id="yZoom" step="0.01"/>
+							    </div>
+									<span><b>Filtro</b></span><br />
+									<div>
+							      <span>Fecha</span><br />
+							      Min <input type="range" value="1" id="dateMinIn"/><span id="spanDateMin"></span><br />
+							      Max <input type="range" value="100" id="dateMaxIn"/><span id="spanDateMax"></span><br />
 							    </div>
 						      <span>Diametro</span><br />
-						      Min <input type="range" value="1" id="diameterMinIn"/><span id="spanDiamMin"></span><br />
-						      Max <input type="range" value="50" id="diameterMaxIn"/><span id="spanDiamMax"></span><br />
+						      Min <input type="range" id="diameterMinIn"/><span id="spanDiamMin"></span><br />
+						      Max <input type="range" id="diameterMaxIn"/><span id="spanDiamMax"></span><br />
 						    </div>
 						    <div>
 						      <span>Peso</span><br />
 						      Min <input type="range" value="1" id="weightMinIn"/><span id="spanWeightMin"></span><br />
 						      Max <input type="range" value="50" id="weightMaxIn"/><span id="spanWeightMax"></span><br />
 						    </div>
-						    <div>
-						      <span>Fecha</span><br />
-						      Min <input type="range" value="1" id="dateMinIn"/><span id="spanDateMin"></span><br />
-						      Max <input type="range" value="100" id="dateMaxIn"/><span id="spanDateMax"></span><br />
-						    </div>
-						    <form>
-						      <input type="radio" name="yAxis" value="1" checked> Diametro<br>
-						      <input type="radio" name="yAxis" value="0"> Peso<br>
-						    </form>
-                <!-- <div class="col-lg-6">
-                  <ul class="list-unstyled mb-0">
-                    <li>
-                      <a href="#">Web Design</a>
-                    </li>
-                    <li>
-                      <a href="#">HTML</a>
-                    </li>
-                    <li>
-                      <a href="#">Freebies</a>
-                    </li>
-                  </ul>
-                </div>
-                <div class="col-lg-6">
-                  <ul class="list-unstyled mb-0">
-                    <li>
-                      <a href="#">JavaScript</a>
-                    </li>
-                    <li>
-                      <a href="#">CSS</a>
-                    </li>
-                    <li>
-                      <a href="#">Tutorials</a>
-                    </li>
-                  </ul>
-                </div> -->
               </div>
             </div>
           </div>
@@ -165,6 +148,6 @@ Released   : 20131223
 <script language="javascript" type="text/javascript" src="libraries/p5.js"></script>
 <script language="javascript" type="text/javascript" src="libraries/p5.dom.js"></script>
 <script language="javascript" type="text/javascript" src="Proyecto.js"></script>
-<script language="javascript" type="text/javascript" src="test.js"></script>
+<!-- <script language="javascript" type="text/javascript" src="test.js"></script> -->
 </body>
 </html>
