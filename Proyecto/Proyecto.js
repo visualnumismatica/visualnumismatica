@@ -4,14 +4,16 @@ function Coin (obj){
   this.diametro = +obj.Diametro;
   date = obj.Fecha.split('-');
   if (isNaN(date[0])) {
-    newDate = +date[1]
+    newDate = -1* +date[1]
   } else{
-    newDate = -1* +date[0]
+    newDate = +date[0]
   }
+  this.fechaMostrar = obj.Fecha;
   this.fecha = newDate;
   this.peso = +obj.Peso;
   this.anverso = obj.Anverso;
   this.reverso = obj.Reverso;
+  this.hover = -1;
 }
 
 var nemusProyect = function( p ) {
@@ -41,10 +43,12 @@ var nemusProyect = function( p ) {
   var date;
   var newDate;
   var axisValue;
+  var img;
+  var hoverCoin = -1;
   // var rangeT = document.getElementById('testR');
   var radios = document.getElementsByName('yAxis');
   var axisStringMeasure;
-  var xScale = 1.0;
+  var xScale = 0.1;
   var xOff = 0;
   var yOff = 0;
   var coins = [];
@@ -104,7 +108,7 @@ var nemusProyect = function( p ) {
     document.getElementById('spanDateMin').innerHTML = document.getElementById('dateMinIn').value;
     document.getElementById('spanDateMax').innerHTML = document.getElementById('dateMaxIn').value;
     document.getElementById('xZoom').max = 30;
-    document.getElementById('xZoom').min = 1;
+    document.getElementById('xZoom').min = 0.12;
     xScale = document.getElementById('xZoom').value;
     document.getElementById('yZoom').max = 30;
     document.getElementById('yZoom').min = 1;
@@ -170,6 +174,7 @@ var nemusProyect = function( p ) {
     p.push()
     p.noFill();
     p.strokeWeight(1);
+    console.log();
     for (var i = 0; i < coins.length; i++) {
       var centerX = coins[i].fecha*xScale;
       var centerY;
@@ -187,6 +192,24 @@ var nemusProyect = function( p ) {
           } else if (p.mouseIsPressed && selectedCoin == i) {
             selectedCoin = -1;
           }
+          // Carga la imagen una vez mientras el mouse este sobre el circulo y la guarda en .hover
+          // si ya esta la imagen, solo cambia el valor de hoverCoin al indice del circulo
+          if (coins[i].hover == -1 && hoverCoin == -1) {
+            img = p.loadImage(coins[i].anverso);
+            coins[i].hover = img;
+            hoverCoin = i;
+          } else if (hoverCoin == -1) {
+            hoverCoin = i;
+          }
+          // Si el mouse esta sobre la moneda que corresponde, dibuja el anverso sobre el circulo
+          if (hoverCoin == i) {
+            p.image(coins[i].hover,centerX-50,centerY-diameter/2.0-100,100,100);
+          }
+        } else {
+          // Si el mouse no esta sobre el circulo reasigna el mouse
+          if (hoverCoin == i) {
+            hoverCoin = -1;
+          }
         }
         p.ellipse(centerX,centerY,diameter,diameter);
         p.pop();
@@ -203,6 +226,24 @@ var nemusProyect = function( p ) {
           } else if (p.mouseIsPressed && selectedCoin == i) {
             selectedCoin = -1;
           }
+          // Carga la imagen una vez mientras el mouse este sobre el circulo y la guarda en .hover
+          // si ya esta la imagen, solo cambia el valor de hoverCoin al indice del circulo
+          if (coins[i].hover == -1 && hoverCoin == -1) {
+            img = p.loadImage(coins[i].anverso);
+            coins[i].hover = img;
+            hoverCoin = i;
+          } else if (hoverCoin == -1) {
+            hoverCoin = i;
+          }
+          // Si el mouse esta sobre la moneda que corresponde, dibuja el anverso sobre el circulo
+          if (hoverCoin == i) {
+            p.image(coins[i].hover,centerX-50,centerY-diameter/2.0-100,100,100);
+          }
+        } else {
+          // Si el mouse no esta sobre el circulo reasigna el mouse
+          if (hoverCoin == i) {
+            hoverCoin = -1;
+          }
         }
         p.ellipse(centerX,centerY,diameter,diameter);
         p.pop();
@@ -217,8 +258,26 @@ var nemusProyect = function( p ) {
     // p.translate(xOff*10.0,0);
     p.translate(-p.width/2.0,-p.height);
   };
+  var divInfo = document.createElement('div');
+  var imgHTMLAnverso = document.createElement('img');
+  imgHTMLAnverso.style.width = "200px";
+  var imgHTMLReverso = document.createElement('img');
+  imgHTMLReverso.style.width = "200px";
   p.mouseClicked = function(){
+    if (selectedCoin != -1) {
+      // img = p.loadImage(coins[selectedCoin].anverso);
+      imgHTMLAnverso.src = coins[selectedCoin].anverso;
+      imgHTMLReverso.src = coins[selectedCoin].reverso;
+      divInfo.innerText = 'Nombre: ' + coins[selectedCoin].nombre + '\n'
+        + 'Fecha: ' + coins[selectedCoin].fechaMostrar + '\n'
+        + 'Peso: ' + coins[selectedCoin].peso + 'gr\n'
+        + 'Diametro: ' + coins[selectedCoin].diametro + 'mm';
+      document.getElementById('nemusProyect').appendChild(divInfo);
+      document.getElementById('nemusProyect').appendChild(imgHTMLAnverso);
+      document.getElementById('nemusProyect').appendChild(imgHTMLReverso);
 
+      console.log(selectedCoin);
+    }
   };
   p.mousePressed = function(){
     // console.log(p.mouseX-(p.width/2.0)-xOff*10.0,p.mouseY-p.height,xOff,xOff*10.0);
