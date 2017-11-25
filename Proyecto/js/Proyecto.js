@@ -10,7 +10,7 @@ var nemusProyect = function( p ) {
   var weightMax = document.getElementById('weightMaxIn');
   var dateMin = document.getElementById('dateMinIn');
   var dateMax = document.getElementById('dateMaxIn');
-  var searchBox = document.getElementById('searchIn');
+  var searchBox = "";
   // var minYear = 1800;
   // var maxYear = 1900;
   var minYear = Number.MAX_VALUE;
@@ -40,7 +40,15 @@ var nemusProyect = function( p ) {
   var xOff = 0;
   var yOff = 0;
   // var selectedCoin = -1;
-  document.getElementById('buttonSearch').onclick = function() {searchBox = document.getElementById('searhIn').value; alert(searchBox);};
+  if ( typeof(document.getElementById('buttonSearch')) != 'undefined' && document.getElementById('buttonSearch') != null) {
+    document.getElementById('buttonSearch').onclick = function() {
+      searchBox = document.getElementById('searhIn').value;
+    };
+  }
+  document.getElementById('buttonSearchReset').onclick = function() {
+    document.getElementById('searhIn').value = "";
+    searchBox = "";
+  };
   window.onload = function(){
   }
   // document.getElementById('yearIn').max = maxYear;
@@ -53,7 +61,8 @@ var nemusProyect = function( p ) {
   p.setup = function() {
     // c2 = p.createCanvas(200,700);
     // c2.parent('coinZoom')
-    p.createCanvas(700, 400);
+    p.createCanvas(document.getElementById('nemusProyect').offsetWidth, 400);
+    // p.frameRate(0.1);
     var c;
     for (var i = 0; i < lines.getRowCount(); i++) {
       c = new Coin(lines.rows[i].obj);
@@ -131,16 +140,25 @@ var nemusProyect = function( p ) {
       document.getElementById('spanIndicator').innerHTML = "Diametro";
       document.getElementById('yRange').max = maxDiameter/10*yScale;
       document.getElementById('yRange').min = minDiameter/10*yScale;
+      document.getElementById('filter-diameter').style.display = 'inline-block';
+      document.getElementById('filter-weight').style.display = 'none';
       p.text("Diametro",-p.width/2.0,-300);
       axisStringMeasure = "mm";
     } else {
       document.getElementById('spanIndicator').innerHTML = "Peso";
       document.getElementById('yRange').max = maxWeight/10*yScale;
       document.getElementById('yRange').min = minWeight/10*yScale;
+      document.getElementById('filter-diameter').style.display = 'none';
+      document.getElementById('filter-weight').style.display = 'inline-block';
       p.text("Peso",-p.width/2.0,-300);
       axisStringMeasure = "gr";
     }
     yOff = document.getElementById('yRange').value;
+    if (document.getElementById('searhIn').value != "") {
+      document.getElementById('buttonSearchReset').style.display = '';
+    } else {
+      document.getElementById('buttonSearchReset').style.display = 'none';
+    }
 
     p.translate(-xOff*10.0,yOff*10.0);
     p.translate(0,-30);
@@ -172,6 +190,11 @@ var nemusProyect = function( p ) {
     p.noFill();
     p.strokeWeight(1);
     for (var i = 0; i < coins.length; i++) {
+      if ((typeof(searchBox) != 'undefined' && searchBox != null) && searchBox != "") {
+        if (!coins[i].nombre.includes(searchBox)) {
+          continue;
+        }
+      }
       if (coins[i].fecha >= dateMin.value && coins[i].fecha <= dateMax.value) {
         var centerX = coins[i].fecha*xScale;
         var centerY;
@@ -269,6 +292,7 @@ var nemusProyect = function( p ) {
   var buttonReset = document.createElement('button');
   buttonReset.id = 'buttonReset';
   buttonReset.innerHTML = 'Restaurar';
+  buttonReset.className = 'btn btn-secondary'
   // divTest.id = 'zoomCoin';
   // var imgHTMLAnverso = document.createElement('img');
   // imgHTMLAnverso.style.width = "300px";
@@ -308,6 +332,9 @@ var nemusProyect = function( p ) {
   // p.windowResized = function(){
   //   p.resizeCanvas(p.windowWidth-550, 400);
   // }
+  p.windowResized = function(){
+    p.resizeCanvas(document.getElementById('nemusProyect').offsetWidth,400);
+  }
 };
 
 var varProyect = new p5(nemusProyect, 'nemusProyect');
@@ -329,7 +356,7 @@ var zoomSketch = function(p){
   var currentPosX;
   var currentPosY;
   p.setup = function(){
-    p.createCanvas(600,300);
+    p.createCanvas(document.getElementById('zoomSketch').offsetWidth,300);
   }
   var checkExist;
 
@@ -365,26 +392,14 @@ var zoomSketch = function(p){
           // p.translate(currentPosX,currentPosY);
           oneTimePos = -1;
         }
-        p.translate(sx,sy);
-        // console.log(sx,sy);
-        p.scale(scale);
-      } else {
-        p.scale(1.0);
-      }
-      p.background(255);
-      p.image(coins[selectedCoin].anverso,0,0,300,300);
-      p.image(coins[selectedCoin].reverso,300,0,300,300);
-      p.pop();
-    }
-  }
 
-  p.keyPressed = function(){
-    console.log(p.key);
-    if (keyCode == 'r') {
-      console.log("hola");
-      scale = 1.0;
-      sx = 0;
-      sy = 0;
+      }
+      p.translate(sx,sy);
+      p.scale(scale);
+      p.background(255);
+      p.image(coins[selectedCoin].anverso,55,0,300,300);
+      p.image(coins[selectedCoin].reverso,355,0,300,300);
+      p.pop();
     }
   }
 
@@ -402,6 +417,10 @@ var zoomSketch = function(p){
       }
       return false;
     }
+  }
+
+  p.windowResized = function(){
+    p.resizeCanvas(document.getElementById('nemusProyect').offsetWidth,300);
   }
 };
 

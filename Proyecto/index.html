@@ -46,24 +46,30 @@ Released   : 20131223
 
 <div class="container">
 	<div class="row">
-        <div class="col-md-9">
+        <div class="col-md-8">
             <h1 class="my-4">Línea de tiempo
                 <!-- <small>Secondary Text</small> -->
             </h1>
-            <div id="nemusProyect"></div>
-						<div id="zoomSketch"></div>
+            <div id="nemusProyect" class="col-md-12"></div>
+						<div id="zoomSketch" class="col-md-12"></div>
 						<!-- <div id="testProyect"></div> -->
         </div>
+				<div class="col-md-1 col-xs-1">
+
+				</div>
 
                 <!-- Sidebar Widgets Column -->
-        <div class="col-md-3">
-            <h2 class="my-4">Filtros</h2>
+        <div class="col-md-3" style="padding:0;">
+            <h2 style="margin-bottom: 2rem !important;margin-top: 3rem !important">Filtros</h2>
           <!-- Search Widget -->
-          <div class="card my-4">
+          <div class="card" style="margin-bottom: 1rem !important;margin-top: 2rem !important">
             <h5 class="card-header">Search</h5>
             <div class="card-body">
               <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search for..." id="searhIn">
+								<span class="input-group-btn">
+                  <button class="btn btn-danger" type="button" id="buttonSearchReset" style="display:none;">X</button>
+                </span>
                 <span class="input-group-btn">
                   <button class="btn btn-secondary" type="button" id="buttonSearch">Buscar</button>
                 </span>
@@ -72,49 +78,51 @@ Released   : 20131223
           </div>
 
           <!-- Categories Widget -->
-          <div class="card my-4">
-            <h5 class="card-header">Categories</h5>
-            <div class="card-body">
+          <div class="card"  style="margin-bottom: 3rem !important;margin-top: 1rem !important">
+            <h5 class="card-header">Controles</h5>
+            <div class="card-body card-menu">
               <div class="row">
 								<!-- <input type="text" id="searhIn"/><input type="button" value="Buscar" id="buttonSearch"/><br /> -->
 						    <!-- <span>Fecha</span>
 						    <input type="range" value="0" id="yearIn" /><br /> -->
 						    <div>
 									<div>
-										<div class="round-box">
-											<span><b>Año</b></span><br />
-								      <span>Deplazar</span><br />
-											<input type="range" value="0" id="dateRange"/><br />
-								      <span>Zoom</span><br />
-								      <input type="range" value="0" id="xZoom" step="0.0001"/><br />
-										</div>
-										<form>
+										<form class="form-box">
 								      <input type="radio" name="yAxis" value="1" checked> Diametro <br />
 								      <input type="radio" name="yAxis" value="0"> Peso<br>
 								    </form>
 										<div class="round-box">
+											<span><b>Año</b></span><br />
+								      <span>Deplazar</span><br />
+											<input class="range-filter" type="range" value="0" id="dateRange"/><br />
+								      <span>Zoom</span><br />
+								      <input class="range-filter" type="range" value="0" id="xZoom" step="0.0001"/><br />
+										</div>
+										<div class="round-box">
 											<b><span id="spanIndicator"></span></b><br />
 								      <span>Deplazar</span><br />
-											<input type="range" value="0" id="yRange"/><br />
+											<input class="range-filter" type="range" value="0" id="yRange"/><br />
 											<span>Zoom</span><br />
-								      <input type="range" value="0" id="yZoom" step="0.01"/>
+								      <input class="range-filter" type="range" value="0" id="yZoom" step="0.01"/>
 										</div>
 							    </div>
+									<br />
 									<span><b>Filtro</b></span><br />
 									<div class="round-box">
 							      <span>Fecha</span><br />
-							      Min <input type="range" value="1" id="dateMinIn"/><span id="spanDateMin"></span><br />
-							      Max <input type="range" value="100" id="dateMaxIn"/><span id="spanDateMax"></span><br />
+							      Min <input class="range-filter" type="range" value="1" id="dateMinIn"/><span id="spanDateMin"></span><br />
+							      Max <input class="range-filter" type="range" value="100" id="dateMaxIn"/><span id="spanDateMax"></span><br />
 							    </div>
-									<div class="round-box">
+									<br />
+									<div class="round-box" id="filter-diameter">
 										<span>Diametro</span><br />
-							      Min <input type="range" id="diameterMinIn"/><span id="spanDiamMin"></span><br />
-							      Max <input type="range" id="diameterMaxIn"/><span id="spanDiamMax"></span><br />
+							      Min <input class="range-filter" type="range" id="diameterMinIn"/><span id="spanDiamMin"></span><br />
+							      Max <input class="range-filter" type="range" id="diameterMaxIn"/><span id="spanDiamMax"></span><br />
 									</div>
-									<div class="round-box">
+									<div class="round-box" id="filter-weight" style="display:none;">
 							      <span>Peso</span><br />
-							      Min <input type="range" value="1" id="weightMinIn"/><span id="spanWeightMin"></span><br />
-							      Max <input type="range" value="50" id="weightMaxIn"/><span id="spanWeightMax"></span><br />
+							      Min <input class="range-filter" type="range" value="1" id="weightMinIn"/><span id="spanWeightMin"></span><br />
+							      Max <input class="range-filter" type="range" value="50" id="weightMaxIn"/><span id="spanWeightMax"></span><br />
 							    </div>
 						    </div>
               </div>

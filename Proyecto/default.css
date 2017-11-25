@@ -13,7 +13,6 @@
 		color: rgba(0,0,0,.6);
 	}
 
-
 	h1, h2, h3
 	{
 		margin: 0;
@@ -37,9 +36,9 @@
 		line-height: 180%;
 	}
 
-	strong
+	/*strong
 	{
-	}
+	}*/
 
 	a
 	{
@@ -51,7 +50,6 @@
 		text-decoration: none;
 	}
 
-
 	.container
 	{
 		margin: 0px auto;
@@ -59,8 +57,27 @@
 	}
 
 	.round-box{
-		
+		border: 2px solid #DFDFDF !important;
+		border-radius: calc(.25rem - 1px);
+		padding: 3px;
 	}
+
+	.card-menu{
+		align-self: center;
+	}
+
+	.form-box{
+		padding: 5px;
+	}
+
+	.range-filter{
+		width: 100%;
+	}
+
+	#nemusProyect{
+		padding-bottom: 0.5em;
+	}
+
 /*********************************************************************************/
 /* Timeline                                                                     */
 /*********************************************************************************/
@@ -322,7 +339,7 @@
 	{
 		overflow: hidden;
 		padding: 2em 0em;
-		background: url(images/bg01.jpg) repeat-x center top;
+		/*background: url(images/bg01.jpg) repeat-x center top;*/
 	}
 
 	#header
