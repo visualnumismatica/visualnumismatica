@@ -51,6 +51,7 @@ Released   : 20131223
                 <!-- <small>Secondary Text</small> -->
             </h1>
             <div id="nemusProyect"></div>
+						<div id="zoomSketch"></div>
 						<!-- <div id="testProyect"></div> -->
         </div>
 
@@ -80,35 +81,41 @@ Released   : 20131223
 						    <input type="range" value="0" id="yearIn" /><br /> -->
 						    <div>
 									<div>
-										<span><b>Año</b></span><br />
-							      <span>Deplazar</span><br />
-										<input type="range" value="0" id="dateRange"/><br />
-							      <span>Zoom</span><br />
-							      <input type="range" value="0" id="xZoom" step="0.0001"/><br />
+										<div class="round-box">
+											<span><b>Año</b></span><br />
+								      <span>Deplazar</span><br />
+											<input type="range" value="0" id="dateRange"/><br />
+								      <span>Zoom</span><br />
+								      <input type="range" value="0" id="xZoom" step="0.0001"/><br />
+										</div>
 										<form>
 								      <input type="radio" name="yAxis" value="1" checked> Diametro <br />
 								      <input type="radio" name="yAxis" value="0"> Peso<br>
 								    </form>
-										<b><span id="spanIndicator"></span></b><br />
-							      <span>Deplazar</span><br />
-										<input type="range" value="0" id="yRange"/><br />
-										<span>Zoom</span><br />
-							      <input type="range" value="0" id="yZoom" step="0.01"/>
+										<div class="round-box">
+											<b><span id="spanIndicator"></span></b><br />
+								      <span>Deplazar</span><br />
+											<input type="range" value="0" id="yRange"/><br />
+											<span>Zoom</span><br />
+								      <input type="range" value="0" id="yZoom" step="0.01"/>
+										</div>
 							    </div>
 									<span><b>Filtro</b></span><br />
-									<div>
+									<div class="round-box">
 							      <span>Fecha</span><br />
 							      Min <input type="range" value="1" id="dateMinIn"/><span id="spanDateMin"></span><br />
 							      Max <input type="range" value="100" id="dateMaxIn"/><span id="spanDateMax"></span><br />
 							    </div>
-						      <span>Diametro</span><br />
-						      Min <input type="range" id="diameterMinIn"/><span id="spanDiamMin"></span><br />
-						      Max <input type="range" id="diameterMaxIn"/><span id="spanDiamMax"></span><br />
-						    </div>
-						    <div>
-						      <span>Peso</span><br />
-						      Min <input type="range" value="1" id="weightMinIn"/><span id="spanWeightMin"></span><br />
-						      Max <input type="range" value="50" id="weightMaxIn"/><span id="spanWeightMax"></span><br />
+									<div class="round-box">
+										<span>Diametro</span><br />
+							      Min <input type="range" id="diameterMinIn"/><span id="spanDiamMin"></span><br />
+							      Max <input type="range" id="diameterMaxIn"/><span id="spanDiamMax"></span><br />
+									</div>
+									<div class="round-box">
+							      <span>Peso</span><br />
+							      Min <input type="range" value="1" id="weightMinIn"/><span id="spanWeightMin"></span><br />
+							      Max <input type="range" value="50" id="weightMaxIn"/><span id="spanWeightMax"></span><br />
+							    </div>
 						    </div>
               </div>
             </div>
@@ -147,7 +154,8 @@ Released   : 20131223
 </div>
 <script language="javascript" type="text/javascript" src="libraries/p5.js"></script>
 <script language="javascript" type="text/javascript" src="libraries/p5.dom.js"></script>
-<script language="javascript" type="text/javascript" src="Proyecto.js"></script>
+<script language="javascript" type="text/javascript" src="js/Proyecto.js"></script>
+<script language="javascript" type="text/javascript" src="js/Coin.js"></script>
 <!-- <script language="javascript" type="text/javascript" src="test.js"></script> -->
 </body>
 </html>
