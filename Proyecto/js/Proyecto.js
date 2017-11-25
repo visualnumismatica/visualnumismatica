@@ -191,7 +191,7 @@ var nemusProyect = function( p ) {
     p.strokeWeight(1);
     for (var i = 0; i < coins.length; i++) {
       if ((typeof(searchBox) != 'undefined' && searchBox != null) && searchBox != "") {
-        if (!coins[i].nombre.includes(searchBox)) {
+        if (!coins[i].nombre.toLowerCase().includes(searchBox.toLowerCase())) {
           continue;
         }
       }
