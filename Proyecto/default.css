@@ -79,6 +79,14 @@
 		padding-bottom: 0.5em;
 	}
 
+	#defaultCanvas0{
+		border-radius: 5px;
+	}
+
+	#defaultCanvas1{
+		border-radius: 5px;
+	}
+
 /*********************************************************************************/
 /* Timeline                                                                     */
 /*********************************************************************************/
@@ -554,7 +562,7 @@
 {
 	background: #16A085;
 	margin: 10px;
-	
+
 }
 
 /*********************************************************************************/
@@ -763,7 +771,7 @@
 	}
 
 /*Lists of items*/
-.rounded-list ol 
+.rounded-list ol
 {
 counter-reset:li; /* Initiate a counter */
 margin-left:0; /* Remove the default left margin */
@@ -785,14 +793,14 @@ padding-top:0px;
 /* number  */
 .rounded-list ol > li p:before
 {
-content: counter(li); 
-counter-increment: li; 
-position: absolute; 
+content: counter(li);
+counter-increment: li;
+position: absolute;
 left: -1.3em;
 top: 50%;
 
 /* number background */
-background: #1ABC9C; 
+background: #1ABC9C;
 height: 2em;
 width: 2em;
 margin-top: -1em;
@@ -818,7 +826,7 @@ color: white;
     font-weight: 600;
     text-transform: uppercase;
     outline: 0;
-    
+
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -904,7 +912,7 @@ color: white;
 }
 
 /* Add Animation - Zoom in the Modal */
-.modal-content, #caption { 
+.modal-content, #caption {
     -webkit-animation-name: zoom;
     -webkit-animation-duration: 0.6s;
     animation-name: zoom;
@@ -912,12 +920,12 @@ color: white;
 }
 
 @-webkit-keyframes zoom {
-    from {-webkit-transform:scale(0)} 
+    from {-webkit-transform:scale(0)}
     to {-webkit-transform:scale(1)}
 }
 
 @keyframes zoom {
-    from {transform:scale(0)} 
+    from {transform:scale(0)}
     to {transform:scale(1)}
 }
 
