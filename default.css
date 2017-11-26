@@ -4,7 +4,6 @@
     font-family: 'Questrial';
     src: url('/fonts/questrial-regular-webfont.eot');
     src: url('/fonts/questrial-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/fonts/questrial-regular-webfont.woff2') format('woff2'),
          url('/fonts/questrial-regular-webfont.woff') format('woff'),
          url('/fonts/questrial-regular-webfont.ttf') format('truetype'),
          url('/fonts/questrial-regular-webfont.svg#questrialregular') format('svg');
