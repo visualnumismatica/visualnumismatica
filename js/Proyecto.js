@@ -55,7 +55,7 @@ var nemusProyect = function( p ) {
   // document.getElementById('yearIn').min = minYear;
 
   p.preload = function(){
-    lines = p.loadTable("visualnumismatica/data/nomisma1.csv",'csv','header'); //////////////////////////////
+    lines = p.loadTable("/visualnumismatica/data/nomisma1.csv",'csv','header'); //////////////////////////////
     // Local
     // lines = p.loadTable("data/nomisma1.csv",'csv','header'); //////////////////////////////
   }
