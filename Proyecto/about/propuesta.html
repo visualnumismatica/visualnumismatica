@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by TEMPLATED
+http://templated.co
+Released for free under the Creative Commons Attribution License
+
+Name       : Cerulean
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20131223
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Numismática</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link rel="shortcut icon" type="image/png" href="images/icon.png"/>
+<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900|Quicksand:400,700|Questrial" rel="stylesheet" />
+<!-- Bootstrap core CSS -->
+<link href="/../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="../default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="../fonts.css" rel="stylesheet" type="text/css" media="all" />
+
+
+<!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
+
+</head>
+<body>
+<div id="header-wrapper">
+	<div id="header" class="container">
+		<div id="logo">
+			<h1><span><img src="../images/coin2.png" height="80px" width="80px"></span><a href="../index.html">Numismática</a></h1>
+			<div id="menu">
+				<ul>
+					<li class="current_page_item"><a href="../index.html" accesskey="1" title="">Inicio</a></li>
+					<li>
+                        <div class="dropdown">
+                            <button class="dropbtn">Sobre el proyecto</button>
+                            <div class="dropdown-content">
+                            <a href="about.html">Marco teórico</a>
+                            <a href="problematica.html">Problemática</a>
+                            <a href="propuesta.html">Solución propuesta</a>
+                            <a href="/about/conclusiones.html">Conclusiones y trabajo futuro</a>
+                            <a href="/about/referencias.html">Referencias</a>
+                        </div>
+                    
+
+                    </li>
+					<li><a target="_blank" href="https://github.com/sacastroc/VisualNumismatica"><img src="../images/GitHub-Mark.png" height="35px" width="35px"></i></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="page-wrapper">
+
+<div class="container">
+	<h1 class="my-4">Solución propuesta</h1>
+	 <p class="text-justify">
+        Teniendo en cuenta las fases de un proyecto de visualización de datos, se siguió la metodología de las 7 fases de la siguiente manera:
+     </p>
+	<div class="row">
+
+		 <div class="col-md-3">
+		 	<img src="../images/flow.png" alt="Flow" width="100%" height="450"></img>
+		 </div>
+        <div class="col-md-9">
+            
+            
+            
+
+             <h3>1. Adquisición</h3>
+             <p class="text-justify">
+                Se adquirió una base de datos almacenada en un archivo con extensión rtf con 371.559 líneas, que contenían información sobre 9.000 monedas de la  <a href="http://numismatics.org/" target="_blank">Sociedad Numismática Americana.</a><br>Vista previa del archivo donde se muestran las características por cada moneda.
+                
+             </p>
+             <img src="../images/data.png" alt="Data" width="100%" height="300"></img>
+             
+
+             <h3><br>2. Transformación y filtrado</h3>
+             <p class="text-justify">
+                Se desarrolló un programa en Python que permitió extraer las características de cada moneda a través de la lectura del archivo fuente, almacenando dicha información en una estructura de diccionario de la siguiente manera:
+
+				<br>Monedas = {nombre: [Fecha, Axis, Diámetro, Peso, Anverso, Reverso ],...}  
+             </p>
+             <center><img src="../images/fragmentCode.png" alt="Fragment codey" width="75%" height="100"></img></center>
+             <p class="text-justify">
+             	Se tuvo en cuenta que las monedas a guardar, fueran aquellas que tuvieran los seis campos: Fecha, Axis, Diámetro, Peso, y los enlaces a las imágenes de su Anverso y su Reverso, por lo cual, resultaron 7.842 monedas, finalmente se guardaron dichos datos en una archivo csv. El campo fecha tiene un rango desde el año 450 antes de cristo, hasta el 1919 de nuestra era.
+
+             </p>
+
+             <h3>3. Minería de datos</h3>
+             <p class="text-justify">
+                Se leyó el archivo csv donde estaban alojados los datos de las monedas y se calcularon los valores mínimos y máximos de los campos: fecha, diámetro y peso, con el objetivo de implementar un filtro para cada uno y también organizar la información. 
+             </p>  
+
+             <h3>4. Representación</h3>
+             <p class="text-justify">
+                A través del lenguaje de programación <b>Processing</b> en su versión para Javascript (p5.js), se creó un sketch que permitió representar cada moneda como una circunferencia en una línea de tiempo, donde se tiene en cuenta el año en que salió a circulación como eje X y el diámetro o el peso como eje Y.
+ 
+             </p>
+
+             <h3>5. Refinamiento</h3>
+             <p class="text-justify">
+               Se implementaron filtros que permiten ver las monedas por peso o por diámetro, teniendo en cuenta su valor máximo y mínimo y dos barras deslizables que dan la posibilidad de hacer zoom, y de mover la línea del tiempo en el eje Y respectivamente. Además, se implementó una barra deslizable que permite moverse de izquierda a derecha sobre la línea del tiempo.
+             </p>
+             <h3>6. Interacción</h3>
+             <p class="text-justify">
+               Cada vez que el cursor pase sobre una circunferencia en la línea de tiempo, se cambiará el color de ésta y se verá la imagen en miniatura de la moneda que representa, además si se hace clic sobre ella, aparecerá una ventana en la parte inferior donde se podrá observar su nombre,  fecha, peso y diámetro, además de la imagen de reverso e inverso de la moneda, permitiendo a la vez, el escalamiento de ésta con una función de zoom, que da la posibilidad de apreciar la moneda con más detalle.  
+             </p>
+
+        </div>
+	</div>
+
+
+<div id="footer-wrapper">
+
+<div id="copyright" class="container">
+	<p>Realizado por Sergio Andrés Castro Castro y Stephanie Torres Jiménez.
+		<br>Estudiantes de Ingeniería de Sistemas y Computación.
+		<br>Universidad Nacional de Colombia
+		<br>Computación Visual. Profesor: Jean Pierre Charalambos</a>.</p>
+	<p>&copy; Todos los derechos reservados. | Diseñado por <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
+</div>
+</div>
+<script language="javascript" type="text/javascript" src="libraries/p5.js"></script>
+<script language="javascript" type="text/javascript" src="libraries/p5.dom.js"></script>
+<script language="javascript" type="text/javascript" src="js/Proyecto.js"></script>
+<script language="javascript" type="text/javascript" src="js/Coin.js"></script>
+<!-- <script language="javascript" type="text/javascript" src="test.js"></script> -->
+</body>
+</html>
