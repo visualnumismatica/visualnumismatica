@@ -44,6 +44,14 @@ var nemusProyect = function( p ) {
     document.getElementById('buttonSearch').onclick = function() {
       searchBox = document.getElementById('searhIn').value;
     };
+    document.getElementById('searhIn').addEventListener('keyup', function(e){
+      e.preventDefault();
+      if (e.keyCode === 13) {
+        document.getElementById('buttonSearch').click();
+      } else if (e.keyCode === 8 && document.getElementById('searhIn').value == "") {
+        searchBox = "";
+      }
+    });
   }
   document.getElementById('buttonSearchReset').onclick = function() {
     document.getElementById('searhIn').value = "";
