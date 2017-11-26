@@ -1,4 +1,4 @@
-#Numismática
+# Visual Numismática
 
 Proyecto propuesto para la visualización de datos, donde el conjunto de datos seleccionado es una base de datos de numismática correspondiente a Roma tomada de la [Sociedad Numismática Americana](http://numismatics.org/).
 
